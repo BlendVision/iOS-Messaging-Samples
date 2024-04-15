@@ -6,15 +6,44 @@
 //
 
 import UIKit
+import BVMessagingSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    let orgID = ""
+    let apiKey = ""
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        setupNavigationBarAppearance()
+        setupTabBarAppearance()
+        setupMessaging()
+        
         return true
+    }
+    
+    private func setupMessaging() {
+        guard !orgID.isEmpty, !apiKey.isEmpty else {
+            fatalError("Please provide your organization ID and API key. You can sign up for them at app.one.blendvision.com.")
+        }
+        
+        MessagingManager.shared.setup(with: MessagingConfig(apiKey: apiKey, organizationID: orgID, logLevel: .debug))
+    }
+    
+    private func setupNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .navigationBarBackgroundColor
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    private func setupTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .tabBarBackgroundColor
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 
     // MARK: UISceneSession Lifecycle

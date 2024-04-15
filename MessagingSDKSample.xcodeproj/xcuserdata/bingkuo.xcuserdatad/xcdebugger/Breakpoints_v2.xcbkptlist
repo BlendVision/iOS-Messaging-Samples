@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "8CC4A707-88D9-47AC-83F7-BF313F7D7388"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D4767F34-A901-4131-A95F-0F7354364AFC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MessagingSDKSample/Features/Chatroom/ChatroomPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "interactor(_:didFailed:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D4767F34-A901-4131-A95F-0F7354364AFC - 8e4c1f32eea3a655"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MessagingSDKSample.ChatroomPresenter.interactor(_: MessagingSDKSample.ChatroomInteractor, didFailed: Swift.Error) -&gt; ()"
+                  moduleName = "MessagingSDKSample"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bingkuo/Desktop/MyDestop/Project/MessagingSDKSample/MessagingSDKSample/Features/Chatroom/ChatroomPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "260"
+                  endingLineNumber = "260"
+                  offsetFromSymbolStart = "512">
+               </Location>
+               <Location
+                  uuid = "D4767F34-A901-4131-A95F-0F7354364AFC - 20d54012871f37ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in MessagingSDKSample.ChatroomPresenter.interactor(_: MessagingSDKSample.ChatroomInteractor, didFailed: Swift.Error) -&gt; ()"
+                  moduleName = "MessagingSDKSample"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bingkuo/Desktop/MyDestop/Project/MessagingSDKSample/MessagingSDKSample/Features/Chatroom/ChatroomPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "260"
+                  endingLineNumber = "260"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

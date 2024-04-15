@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "ios-messaging-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/BlendVision/ios-messaging-sdk",
+      "state" : {
+        "revision" : "cb196cc815deddcb08ae25b0f43f68f6320757c4",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

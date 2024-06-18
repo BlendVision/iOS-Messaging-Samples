@@ -133,13 +133,15 @@ class ChatroomPresenter {
                     break
                 }
             } else if let message = interactionMessage as? InteractionMessageCustom {
-                let jsonString = message.customMessage.value
-                guard 
-                    let data = jsonString.data(using: .utf8),
-                    let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                    let customMessageType = dict["type"] as? String
-                else { continue }
-                rows.append(Row.notice(.init(text: "Receive custom message: \(customMessageType)")))
+                let customText = message.customMessage.value.replacingOccurrences(of: "\n", with: "")
+                let shortText = (customText.count > 20) ? String(customText.prefix(20)) + "..." : customText
+                if let increment = message.customMessage.increment {
+                    rows.append(Row.notice(.init(text: "Receive custom message. key: \(increment.key), count: \(increment.value), text: \(shortText)")))
+                } else {
+                    rows.append(Row.notice(.init(text: "Receive custom message: \(shortText)")))
+                }
+            } else if let message = interactionMessage as? InteractionMessageCustomCounterUpdate {
+                rows.append(Row.notice(.init(text: "Update counter: \(message.customCounter.key), count: \(message.customCounter.value)")))
             } else if let message = interactionMessage as? InteractionMessageEntrance {
                 rows.append(Row.notice(.init(text: "\(message.entranceMessage.id)/\(message.entranceMessage.name) joins")))
             }
@@ -172,6 +174,7 @@ extension ChatroomPresenter: ChatroomPresenterInterface {
         Task {
             await interactor.connect()
             interactor.updateChatroomState()
+            view.updateLikeCount(interactor.data.likeCount)
             view.updateWordingCount(wordingCountState, text: "\(wordingCountText)")
         }
     }
@@ -243,6 +246,7 @@ extension ChatroomPresenter: ChatroomInteractorDelegate {
     
     func interactor(_ interactor: ChatroomInteractor, didUpdateData data: ChatroomEntity.DataSource) {
         view.tableViewReload()
+        view.updateLikeCount(data.likeCount)
         
         if isEndOfChatroom {
             view.scrollToBottom()
@@ -293,6 +297,10 @@ extension ChatroomError {
             return "Something went wrong."
         case .tokenExpired:
             return "Token is expired."
+        case let .customCounterKeyNotFound(key):
+            return "Custom Counter Key '\(key)' Not Found"
+        case .refreshTokenNotFound:
+            return "Refresh Token Not Found"
         }
     }
 }

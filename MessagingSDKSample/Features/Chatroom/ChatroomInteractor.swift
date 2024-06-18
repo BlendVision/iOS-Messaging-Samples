@@ -93,16 +93,7 @@ extension ChatroomInteractor {
     
     func sendLikeMessage() {
         do {
-            let json = """
-            {
-                "type": "like",
-                "user": {
-                    "id": "\(user.id)",
-                    "name": "\(user.name)"
-                }
-            }
-            """
-            try chatroom.sendCustomMessage(text: json)
+            try chatroom.sendCountableCustomMessage(key: "like", text: "👍")
         } catch {
             delegate?.interactor(self, didFailed: error)
         }
@@ -110,15 +101,7 @@ extension ChatroomInteractor {
     
     func sendDislikeMessage() {
         do {
-            let json = """
-            {
-                "type": "dislike",
-                "user": {
-                    "id": "\(user.id)",
-                    "name": "\(user.name)"
-                }
-            }
-            """
+            let json = "{\"type\":\"dislike\"}"
             try chatroom.sendCustomMessage(text: json)
         } catch {
             delegate?.interactor(self, didFailed: error)
@@ -164,7 +147,7 @@ extension ChatroomInteractor {
     func deleteMessage(_ message: InteractionMessageText) {
         Task {
             do {
-                try await chatroom.deleteMessage(id: message.id)
+                try await chatroom.deleteMessage(with: message)
             } catch {
                 delegate?.interactor(self, didFailed: error)
             }
@@ -207,6 +190,11 @@ extension ChatroomInteractor {
 // MARK: - ChatroomEventListener
 
 extension ChatroomInteractor: ChatroomEventListener {
+    func chatroom(_ chatroom: Chatroom, didFinishBatchWithIncreaseCount increment: [String : Int], totalCount: [String : Int]) {
+        delegate?.interactor(self, didUpdateData: data)
+        print("increment: \(increment), totalCount: \(totalCount)")
+    }
+    
     func chatroomDidConnect(_ chatroom: Chatroom) {
         print("ChatroomViewModel.chatroomDidConnect(_:)")
     }
@@ -232,7 +220,7 @@ extension ChatroomInteractor: ChatroomEventListener {
             case .mute, .unmute, .blockUser, .unblockUser:
                 updateChatroomState()
                 delegate?.interactor(self, didUpdateData: data)
-            case .pinMessage, .unpinMessage, .deleteMessage, .viewerInfoUpdate, .viewerInfoEnabled, .viewerInfoDisabled, .custom, .entrance:
+            case .pinMessage, .unpinMessage, .deleteMessage, .viewerInfoUpdate, .viewerInfoEnabled, .viewerInfoDisabled, .custom, .customCounterUpdate, .entrance:
                 delegate?.interactor(self, didUpdateData: data)
             }
         }

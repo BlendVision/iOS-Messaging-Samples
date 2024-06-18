@@ -40,5 +40,8 @@ struct ChatroomEntity {
         }
         var sentMessages = [InteractionMessageText]()
         var configuration = ChatroomSettingEntity.Configuration(isAutoSend: false)
+        var likeCount: Int {
+            chatroom.info.getCustomCounter(key: "like")
+        }
     }
 }

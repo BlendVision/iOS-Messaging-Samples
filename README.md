@@ -35,7 +35,7 @@ The BlendVision Chatroom iOS library written in Swift.
 ### Swift Package Manager
 - File > Swift Packages > Add Package Dependency
 - Add URL
-- Select "Up to Next Major" with "1.0.0"
+- Select "Up to Next Major" with "1.1.0"
 
 ### Manually 
 - Download `BVMessagingSDK.xcframework`, `CocoaMQTT.xcframework`, `MqttCocoaAsyncSocket.xcframework`, `Starscream.xcframework`, and `Alamofire.xcframework` from Sources/Frameworks. 
@@ -50,37 +50,15 @@ import BVMessagingSDK
 
 - Setup the `MessagingConfig`.
 ```swift
-// An API key is a token that you provide when making API calls
-let apiKey = "..."
-// The uuid of the organization
-let orgID = "..."
-// Console log level
-let logLevel: LoggerLevel = .debug
-
 // Setup config
-let config = MessagingConfig(apiKey: apiKey, organizationID: orgID, logLevel: logLevel)
+let config = MessagingConfig(logLevel: .debug)
 MessagingManager.shared.setup(with: config)
 ```
 
-- Creates a new chatroom or retrieves a specific chatroom.
+- Retrieves a specific chatroom.
 ```swift
-let userID = "..."
-let name = "..."
-let deviceID = "..."
-let isAdmin = true
-
-// The user who wants to use this chatroom.
-let user = ChatroomUser(id: userID, name: name, deviceID: deviceID, isAdmin: isAdmin)
-
-// Creates a new chatroom if the user is an admin.
-let chatroom = try await MessagingManager.shared.createChatroom(with: user)
-
-// Retrieves a specific chatroom based on the permissions held by this user.
-let chatroomID = "..."
-let chatroom = try await MessagingManager.shared.chatroom(id: chatroomID, with: user)
-
-// Retrieves a specific chatroom with guest permissions.
-let chatroom = try await MessagingManager.shared.chatroom(id: chatroomID)
+// Retrieves a specific chatroom with the chatroom token. You can get token and refresh token from `<chatroom_id>/tokens` API. 
+let chatroom = try await MessagingManager.shared.chatroom(with: token, refreshToken: refreshToken)
 ```
 
 - Adds event listener.

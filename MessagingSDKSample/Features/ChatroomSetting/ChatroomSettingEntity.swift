@@ -31,6 +31,7 @@ enum ChatroomSettingEntity {
 
         enum Row {
             case info(InfoTableViewCell.Configuration)
+            case customCounter(InfoTableViewCell.Configuration)
             case pinMessagesInfo(InfoTableViewCell.Configuration)
             case blockUserInfo(InfoTableViewCell.Configuration)
             case mute(ButtonTableViewCell.Configuration)

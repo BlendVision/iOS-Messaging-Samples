@@ -8,8 +8,6 @@
 import UIKit
 import BVMessagingSDK
 
-
-
 class ChatroomViewController: UIViewController {
     
     var presenter: ChatroomPresenterInterface!
@@ -191,6 +189,12 @@ extension ChatroomViewController: ChatroomViewInterface {
             }
         }
     }
+    
+    func updateLikeCount(_ num: Int) {
+        DispatchQueue.main.async {
+            self.likeButton.setTitle("\(num)", for: .normal)
+        }
+    }
 }
 
 // MARK: - Actions
@@ -332,7 +336,7 @@ private extension ChatroomViewController {
             
             wordingWrapperView.heightAnchor.constraint(equalToConstant: 44),
             likeButton.heightAnchor.constraint(equalToConstant: 44),
-            likeButton.widthAnchor.constraint(equalToConstant: 44),
+            likeButton.widthAnchor.constraint(equalToConstant: 80),
             dislikeButton.heightAnchor.constraint(equalToConstant: 44),
             dislikeButton.widthAnchor.constraint(equalToConstant: 44),
         ])

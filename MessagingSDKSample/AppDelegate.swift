@@ -10,8 +10,6 @@ import BVMessagingSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    let orgID = ""
-    let apiKey = ""
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -23,11 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setupMessaging() {
-        guard !orgID.isEmpty, !apiKey.isEmpty else {
-            fatalError("Please provide your organization ID and API key. You can sign up for them at app.one.blendvision.com.")
-        }
-        
-        MessagingManager.shared.setup(with: MessagingConfig(apiKey: apiKey, organizationID: orgID, logLevel: .debug))
+        MessagingManager.shared.setup(with: MessagingConfig(logLevel: .debug))
     }
     
     private func setupNavigationBarAppearance() {
@@ -59,7 +53,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 

@@ -21,7 +21,6 @@ extension UserSettingViewModel {
         case deviceID(TextFieldTableViewCell.CellConfiguration)
         case roleToggle(ToggleTableViewCell.CellConfiguration)
         case chatroomID(TextFieldTableViewCell.CellConfiguration)
-        case createChatroom(ButtonTableViewCell.CellConfiguration)
         case environment(InfoTableViewCell.CellConfiguration)
     }
     
@@ -43,19 +42,25 @@ class UserSettingViewModel {
     var dataDidUpdateClosure: (() -> Void)?
     var errorDidOccurClosure: ((Error) -> Void)?
     
+    private let api: APIService
     private(set) var data: Data
     var sections: [Section] { generateSections() }
     
     // MARK: - Constructors
 
-    init(manager: MessagingManager = MessagingManager.shared, userIndex: Int) {
+    init(api: APIService = .shared, manager: MessagingManager = MessagingManager.shared, userIndex: Int) {
+        self.api = api
         self.data = Data(chatroomID: DataSource.chatroomID, manager: manager, userIndex: userIndex)
     }
     
     func connect(_ completionHandler: @escaping (Chatroom?) -> Void) {
         Task {
             do {
-                let chatroom = try await MessagingManager.shared.chatroom(id: data.chatroomID, with: data.user)
+                // Create a chatroom token with the user
+                let chatroomToken = try await api.createChatroomToken(with: data.chatroomID, user: data.user)
+                
+                // Connect to the chatroom
+                let chatroom = try await MessagingManager.shared.chatroom(with: chatroomToken.token, refreshToken: chatroomToken.refreshToken)
                 
                 // Try to rename for the user if the user is an admin
                 try? await chatroom.updateUser(name: data.user.name)
@@ -71,7 +76,12 @@ class UserSettingViewModel {
     func connectAsGuest(_ completionHandler: @escaping (Chatroom?) -> Void) {
         Task {
             do {
-                let chatroom = try await MessagingManager.shared.chatroom(id: data.chatroomID, with: nil)
+                // Create a chatroom token without the user (guest)
+                let chatroomToken = try await api.createChatroomToken(with: data.chatroomID, user: nil)
+                
+                // Connect to the chatroom
+                let chatroom = try await MessagingManager.shared.chatroom(with: chatroomToken.token, refreshToken: chatroomToken.refreshToken)
+                
                 completionHandler(chatroom)
             } catch {
                 errorDidOccurClosure?(error)
@@ -91,8 +101,7 @@ private extension UserSettingViewModel {
                 .roleToggle(.init(title: "Is Admin", value: data.user.isAdmin, dataUpdatedHandler: updateRole))
             ]),
             .init(header: nil, rows: [
-                .chatroomID(.init(title: "Chatroom ID", value: data.chatroomID, valueUpdatedHandler: updateChatroomID)),
-                .createChatroom(.init(title: "Create a new chatroom", clickActionHandler: createChatroom))
+                .chatroomID(.init(title: "Chatroom ID", value: data.chatroomID, valueUpdatedHandler: updateChatroomID))
             ])
         ]
     }
@@ -111,19 +120,6 @@ private extension UserSettingViewModel {
     
     func updateChatroomID(_ value: String?) {
         data.chatroomID = value ?? ""
-    }
-    
-    func createChatroom() {
-        Task {
-            do {
-                let chatroom = try await MessagingManager.shared.createChatroom(with: data.user)
-                DataSource.chatroomID = chatroom.identifier
-                data.chatroomID = chatroom.identifier
-                dataDidUpdateClosure?()
-            } catch {
-                errorDidOccurClosure?(error)
-            }
-        }
     }
 }
 

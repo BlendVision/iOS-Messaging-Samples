@@ -191,11 +191,6 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.configure(with: data)
                 return cell
             }
-        case let .createChatroom(data):
-            if let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier) as? ButtonTableViewCell {
-                cell.configure(with: data)
-                return cell
-            }
         case let .environment(data):
             if let cell = tableView.dequeueReusableCell(withIdentifier: InfoTableViewCell.identifier) as? InfoTableViewCell {
                 cell.configure(with: data)

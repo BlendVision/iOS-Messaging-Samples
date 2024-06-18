@@ -124,7 +124,7 @@ extension ChatroomSettingViewController: UITableViewDataSource, UITableViewDeleg
         guard let data = presenter.cellForRowAt(indexPath) else { return UITableViewCell() }
 
         switch data {
-        case let .pinMessagesInfo(data), let .blockUserInfo(data), let .info(data):
+        case let .pinMessagesInfo(data), let .blockUserInfo(data), let .info(data), let .customCounter(data):
             if let cell = tableView.dequeueReusableCell(withIdentifier: InfoTableViewCell.identifier) as? InfoTableViewCell {
                 cell.configure(with: data)
                 return cell

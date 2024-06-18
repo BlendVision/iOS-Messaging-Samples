@@ -72,6 +72,15 @@ extension ChatroomSettingPresenter {
             ])
         )
         
+        let customCounterMessageRows = chatroomInfo.customCounters
+            .map {
+                Row.customCounter(.init(
+                    title: $0.key,
+                    value: "value: \($0.value), version: \($0.versionNumber), updatedAt: \($0.updatedAt ?? "null")"
+                ))
+            }
+        sections.append(Section(header: "Custom Counter", rows: customCounterMessageRows))
+        
         let pinUnpinMessageRows = chatroomInfo.pinnedMessages
             .map {
                 Row.pinMessagesInfo(.init(
@@ -189,7 +198,7 @@ extension ChatroomSettingPresenter {
         case .blockUserInfo:
             let blockUser = chatroomInfo.blockedUsers[indexPath.row]
             interactor.unblock(userID: blockUser.id)
-        case .mute, .unmute, .info, .autoSend:
+        case .mute, .unmute, .info, .autoSend, .customCounter:
             break
         }
     }
@@ -203,7 +212,7 @@ extension ChatroomSettingPresenter {
         switch row {
         case .pinMessagesInfo, .blockUserInfo:
             return true
-        case .mute, .unmute, .info, .autoSend:
+        case .mute, .unmute, .info, .autoSend, .customCounter:
             return false
         }
     }

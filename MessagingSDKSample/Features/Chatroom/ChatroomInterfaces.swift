@@ -17,6 +17,7 @@ protocol ChatroomViewInterface: ViewInterface {
     func updateInputState(_ state: ChatroomEntity.ChatroomState)
     func updateConnectionState(_ state: ConnectingState)
     func updateWordingCount(_ state: ChatroomEntity.WordingCountState, text: String)
+    func updateLikeCount(_ num: Int)
 }
 
 // Presenter

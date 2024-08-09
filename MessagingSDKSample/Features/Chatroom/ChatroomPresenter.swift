@@ -54,7 +54,7 @@ class ChatroomPresenter {
     private func generateSections() -> [Section] {
         var sections = [Section]()
         var rows = [Row]()
-        for interactionMessage in chatroom.messages {
+        for interactionMessage in interactor.data.receivedMessages {
             if let message = interactionMessage as? InteractionMessageText  {
                 let isOwner = (message.user.id == interactor.data.user.id)
                 let isPinned = interactor.isPinnedMessage(message)
@@ -144,6 +144,8 @@ class ChatroomPresenter {
                 rows.append(Row.notice(.init(text: "Update counter: \(message.customCounter.key), count: \(message.customCounter.value)")))
             } else if let message = interactionMessage as? InteractionMessageEntrance {
                 rows.append(Row.notice(.init(text: "\(message.entranceMessage.id)/\(message.entranceMessage.name) joins")))
+            } else if let message = interactionMessage as? InteractionMessageBroadcastUpdate {
+                rows.append(Row.notice(.init(text: "Receive broadcast message, concurrent: \(message.broadcastMessage.viewerMetrics.concurrent.count), total:  \(message.broadcastMessage.viewerMetrics.total.count)")))
             }
         }
         
@@ -174,6 +176,7 @@ extension ChatroomPresenter: ChatroomPresenterInterface {
         Task {
             await interactor.connect()
             interactor.updateChatroomState()
+            try? await interactor.fetchHistory()
             view.updateLikeCount(interactor.data.likeCount)
             view.updateWordingCount(wordingCountState, text: "\(wordingCountText)")
         }

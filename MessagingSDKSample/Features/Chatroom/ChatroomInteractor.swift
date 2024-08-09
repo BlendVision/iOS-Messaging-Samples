@@ -27,34 +27,54 @@ class ChatroomInteractor: ChatroomInteractorInterface {
     var user: ChatroomUser {
         chatroom.user
     }
-    private var timer: Timer?
+    private var testMessageSenderTimer: Timer?
+    private var syncMessageTimer: Timer?
     
     init(chatroom: Chatroom) {
         self.data = ChatroomEntity.DataSource(chatroom: chatroom)
         data.chatroom.add(listener: self)
+        startSyncTimer()
     }
     
     deinit {
         chatroom.remove(listener: self)
     }
     
-    func startPollingTimer(_ isTurnOn: Bool) {
+    func startTestMessageSenderTimer(_ isTurnOn: Bool) {
         guard isTurnOn else {
-            timer?.invalidate()
-            timer = nil
+            testMessageSenderTimer?.invalidate()
+            testMessageSenderTimer = nil
             return
         }
         
-        guard timer == nil else { return }
+        guard testMessageSenderTimer == nil else { return }
         
-        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
+        testMessageSenderTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
             guard let self else { return }
             Task {
                 await self.sendMessage(text: Date().ISO8601Format())
                 self.delegate?.interactor(self, didUpdateData: self.data)
             }
         }
-        timer?.fire()
+        testMessageSenderTimer?.fire()
+    }
+    
+    func startSyncTimer() {
+        syncMessageTimer?.invalidate()
+        syncMessageTimer = nil
+        
+        syncMessageTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] timer in
+            guard let self else { return }
+            
+            Task {
+                do {
+                    try await self.syncMessages()
+                } catch {
+                    self.delegate?.interactor(self, didFailed: error)
+                }
+            }
+        }
+        syncMessageTimer?.fire()
     }
 }
 
@@ -117,6 +137,40 @@ extension ChatroomInteractor {
                 delegate?.interactor(self, didFailed: error)
             }
         }
+    }
+    
+    func fetchHistory() async throws {
+        data.receivedMessages = try await chatroom.getMessage(limit: nil)
+        self.delegate?.interactor(self, didUpdateData: self.data)
+    }
+    
+    private func syncMessages() async throws {
+        guard let newDate = Calendar.current.date(byAdding: .second, value: -30, to: Date()) else { return }
+        
+        /// There are sorted messages, you can use them directly or handle additional logic
+        let remoteMessages = try await chatroom.getMessage(afterAt: newDate, limit: 100)
+        let syncedMessages = syncMessages(remote: remoteMessages, local: data.receivedMessages, afterAt: newDate)
+        
+        data.receivedMessages = syncedMessages
+        delegate?.interactor(self, didUpdateData: data)
+    }
+    
+    /// Write the code to sync up messages between backend and local.
+    private func syncMessages(remote: [InteractionMessage], local: [InteractionMessage], afterAt: Date) -> [InteractionMessage] {
+        var updatedMessages = local
+        
+        updatedMessages.removeAll { remote.contains($0) }
+        updatedMessages.append(contentsOf: remote)
+        
+        updatedMessages.sort { (message1, message2) in
+            if let date1 = message1.receivedAt, let date2 = message2.receivedAt {
+                return date1 < date2
+            } else {
+                return false
+            }
+        }
+        
+        return updatedMessages
     }
 }
     
@@ -183,7 +237,7 @@ extension ChatroomInteractor {
     
     func updateChatroomConfiguration(_ configuration: ChatroomSettingEntity.Configuration) {
         data.configuration = configuration
-        startPollingTimer(configuration.isAutoSend)
+        startTestMessageSenderTimer(configuration.isAutoSend)
     }
 }
 
@@ -212,18 +266,35 @@ extension ChatroomInteractor: ChatroomEventListener {
     }
     
     func chatroom(_ chatroom: Chatroom, didReceiveMessages messages: [InteractionMessage]) {
+        var receivedMessages = [InteractionMessage]()
+        var deletedMessageIDs = [String]()
+        
         for message in messages {
             switch message.type {
             case .text:
                 data.sentMessages.removeAll(where: { $0.id == message.id })
-                delegate?.interactor(self, didUpdateData: data)
+                receivedMessages.append(message)
             case .mute, .unmute, .blockUser, .unblockUser:
                 updateChatroomState()
-                delegate?.interactor(self, didUpdateData: data)
-            case .pinMessage, .unpinMessage, .deleteMessage, .viewerInfoUpdate, .viewerInfoEnabled, .viewerInfoDisabled, .custom, .customCounterUpdate, .entrance:
-                delegate?.interactor(self, didUpdateData: data)
+                receivedMessages.append(message)
+            case .pinMessage, .unpinMessage, .viewerInfoUpdate, .viewerInfoEnabled, .viewerInfoDisabled, .custom, .customCounterUpdate, .entrance, .broadcastUpdate:
+                receivedMessages.append(message)
+            case .deleteMessage:
+                if let message = message as? InteractionMessageDeleteMessage {
+                    deletedMessageIDs.append(message.deleteMessage.id)
+                }
+            @unknown default:
+                print("Unsupported message type")
             }
         }
+        
+        if receivedMessages.count > 0 {
+            data.receivedMessages.append(contentsOf: receivedMessages)
+        }
+        if deletedMessageIDs.count > 0 {
+            data.receivedMessages.removeAll(where: { deletedMessageIDs.contains($0.id) })
+        }
+        delegate?.interactor(self, didUpdateData: data)
     }
     
     func chatroom(_ chatroom: Chatroom, didFailToReceiveMessagesWithError error: Error) {

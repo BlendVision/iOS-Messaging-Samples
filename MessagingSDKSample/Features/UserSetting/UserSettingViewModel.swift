@@ -120,6 +120,7 @@ private extension UserSettingViewModel {
     
     func updateChatroomID(_ value: String?) {
         data.chatroomID = value ?? ""
+        DataSource.chatroomID = value ?? ""
     }
 }
 

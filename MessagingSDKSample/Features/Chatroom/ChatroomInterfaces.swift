@@ -12,7 +12,7 @@ import BVMessagingSDK
 
 protocol ChatroomViewInterface: ViewInterface {
     
-	func tableViewReload()
+    func tableViewReload()
     func scrollToBottom()
     func updateInputState(_ state: ChatroomEntity.ChatroomState)
     func updateConnectionState(_ state: ConnectingState)
@@ -51,7 +51,7 @@ protocol ChatroomPresenterInterface: PresenterInterface {
 protocol ChatroomInteractorInterface: InteractorInterface {
     
     var delegate: ChatroomInteractorDelegate? { get set }
-	var data: ChatroomEntity.DataSource { get }
+    var data: ChatroomEntity.DataSource { get }
     
     // Chatroom Action
     
@@ -62,6 +62,7 @@ protocol ChatroomInteractorInterface: InteractorInterface {
     func sendLikeMessage()
     func sendDislikeMessage()
     func refreshAndReconnect()
+    func fetchHistory() async throws
     
     // Message Action
     
@@ -70,7 +71,7 @@ protocol ChatroomInteractorInterface: InteractorInterface {
     func deleteMessage(_ message: InteractionMessageText)
     func blockUser(_ user: ChatroomUser)
     
-    // Access 
+    // Access
     
     func isPinnedMessage(_ message: InteractionMessageText) -> Bool
     func isBlockedUser() -> Bool

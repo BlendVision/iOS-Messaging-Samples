@@ -10,15 +10,6 @@ import BVMessagingSDK
 
 class DataSource {
     
-    static var chatroomID: String {
-        get {
-            UserDefaults.standard.string(forKey: UserDefaults.Keys.chatroomID) ?? "cc82dd3b-96d0-4fb5-9d60-3a32f37c6514"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaults.Keys.chatroomID)
-        }
-    }
-    
     private static var users: [ChatroomUser] {
         get {
             guard

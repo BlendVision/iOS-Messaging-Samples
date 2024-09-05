@@ -56,7 +56,7 @@ class ChatroomPresenter {
         var rows = [Row]()
         for interactionMessage in interactor.data.receivedMessages {
             if let message = interactionMessage as? InteractionMessageText  {
-                let isOwner = (message.user.id == interactor.data.user.id)
+                let isOwner = (message.user == interactor.data.user)
                 let isPinned = interactor.isPinnedMessage(message)
                 let messageText = message.textMessage?.text ?? ""
                 let username = message.user.name
@@ -110,25 +110,25 @@ class ChatroomPresenter {
             } else if let message = interactionMessage as? InteractionMessagePin {
                 let actionTakerName = message.pinUnpinMessage.actionTaker.name
                 let text = (message.type == .pinMessage) ? "\(actionTakerName) pinned message" : "\(actionTakerName) unpinned message"
-                rows.append(Row.notice(.init(text: text)))
+                rows.append(Row.notice(.init(text: text, receiveDate: message.receivedAt ?? Date())))
             } else if let message = interactionMessage as? InteractionMessageBlock {
                 let isBlockUser = (message.type == .blockUser)
                 let actionTakerName = message.blockUser.actionTaker.name
                 let blockUserName = message.blockUser.customName
                 let text = (isBlockUser) ? "\(actionTakerName) blocked user \(blockUserName)" : "\(actionTakerName) unblocked user \(blockUserName)"
-                rows.append(Row.notice(.init(text: text)))
+                rows.append(Row.notice(.init(text: text, receiveDate: message.receivedAt ?? Date())))
             } else if let message = interactionMessage as? InteractionMessageMute {
                 let isMute = (message.type == .mute)
                 let text = isMute ? "Admin muted the chatroom" : "Admin unmuted the chatroom"
-                rows.append(Row.notice(.init(text: text)))
+                rows.append(Row.notice(.init(text: text, receiveDate: message.receivedAt ?? Date())))
             } else if let message = interactionMessage as? InteractionMessageViewerInfo {
                 switch message.type {
                 case .viewerInfoDisabled:
-                    rows.append(Row.notice(.init(text: "Viewer info is disabled")))
+                    rows.append(Row.notice(.init(text: "Viewer info is disabled", receiveDate: message.receivedAt ?? Date())))
                 case .viewerInfoEnabled:
-                    rows.append(Row.notice(.init(text: "Viewer info is enabled")))
+                    rows.append(Row.notice(.init(text: "Viewer info is enabled", receiveDate: message.receivedAt ?? Date())))
                 case .viewerInfoUpdate:
-                    rows.append(Row.notice(.init(text: "Viewer info is updated")))
+                    rows.append(Row.notice(.init(text: "Viewer info is updated", receiveDate: message.receivedAt ?? Date())))
                 default:
                     break
                 }
@@ -136,16 +136,16 @@ class ChatroomPresenter {
                 let customText = message.customMessage.value.replacingOccurrences(of: "\n", with: "")
                 let shortText = (customText.count > 20) ? String(customText.prefix(20)) + "..." : customText
                 if let increment = message.customMessage.increment {
-                    rows.append(Row.notice(.init(text: "Receive custom message. key: \(increment.key), count: \(increment.value), text: \(shortText)")))
+                    rows.append(Row.notice(.init(text: "Receive custom message. key: \(increment.key), count: \(increment.value), text: \(shortText)", receiveDate: message.receivedAt ?? Date())))
                 } else {
-                    rows.append(Row.notice(.init(text: "Receive custom message: \(shortText)")))
+                    rows.append(Row.notice(.init(text: "Receive custom message: \(shortText)", receiveDate: message.receivedAt ?? Date())))
                 }
             } else if let message = interactionMessage as? InteractionMessageCustomCounterUpdate {
-                rows.append(Row.notice(.init(text: "Update counter: \(message.customCounter.key), count: \(message.customCounter.value)")))
+                rows.append(Row.notice(.init(text: "Update counter: \(message.customCounter.key), count: \(message.customCounter.value)", receiveDate: message.receivedAt ?? Date())))
             } else if let message = interactionMessage as? InteractionMessageEntrance {
-                rows.append(Row.notice(.init(text: "\(message.entranceMessage.id)/\(message.entranceMessage.name) joins")))
+                rows.append(Row.notice(.init(text: "\(message.entranceMessage.id)/\(message.entranceMessage.name) joins", receiveDate: message.receivedAt ?? Date())))
             } else if let message = interactionMessage as? InteractionMessageBroadcastUpdate {
-                rows.append(Row.notice(.init(text: "Receive broadcast message, concurrent: \(message.broadcastMessage.viewerMetrics.concurrent.count), total:  \(message.broadcastMessage.viewerMetrics.total.count)")))
+                rows.append(Row.notice(.init(text: "Receive broadcast message, concurrent: \(message.broadcastMessage.viewerMetrics.concurrent.count), total:  \(message.broadcastMessage.viewerMetrics.total.count)", receiveDate: message.receivedAt ?? Date())))
             }
         }
         

@@ -107,21 +107,6 @@ private extension UserSettingViewController {
         }
     }
     
-    @objc func connectAsGuest() {
-        dismissKeyboard()
-        enableNavigationBarButton(false)
-        
-        viewModel.connectAsGuest { [weak self] chatroom in
-            self?.enableNavigationBarButton(true)
-            
-            guard let chatroom else { return }
-            DispatchQueue.main.async {
-                let viewController = ChatroomBuilder().build(chatroom: chatroom)
-                self?.navigationController?.pushViewController(viewController, animated: true)
-            }
-        }
-    }
-    
     func enableNavigationBarButton(_ isEnable: Bool) {
         DispatchQueue.main.async {
             self.navigationItem.rightBarButtonItem?.isEnabled = isEnable
@@ -154,9 +139,6 @@ private extension UserSettingViewController {
     func setupNavigation() {
         let connectButton = UIBarButtonItem(title: "Connect", style: .plain, target: self, action: #selector(connect))
         navigationItem.rightBarButtonItem = connectButton
-        
-        let guestButton = UIBarButtonItem(title: "Guest", style: .plain, target: self, action: #selector(connectAsGuest))
-        navigationItem.leftBarButtonItem = guestButton
     }
 }
 
@@ -186,7 +168,7 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.configure(with: data)
                 return cell
             }
-        case let .chatroomID(data):
+        case let .chatroomToken(data), let .refreshToken(data):
             if let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifier) as? TextFieldTableViewCell {
                 cell.configure(with: data)
                 return cell

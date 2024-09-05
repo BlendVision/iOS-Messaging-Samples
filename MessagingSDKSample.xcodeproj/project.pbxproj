@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C144D062C89BE3E001AD762 /* BVMessagingSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3C144D052C89BE3E001AD762 /* BVMessagingSDK */; };
 		3C510D3F2C2123CC00BF5FCB /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C510D3D2C2123CC00BF5FCB /* APIService.swift */; };
 		3C7EC3C02BCCD61C002FFBA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC3BF2BCCD61C002FFBA1 /* AppDelegate.swift */; };
 		3C7EC3C22BCCD61C002FFBA1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC3C12BCCD61C002FFBA1 /* SceneDelegate.swift */; };
@@ -50,7 +51,6 @@
 		3C7EC4282BCCD7A9002FFBA1 /* ChatroomSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC4012BCCD7A9002FFBA1 /* ChatroomSettingViewController.swift */; };
 		3C7EC4292BCCD7A9002FFBA1 /* ChatroomSettingInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC4022BCCD7A9002FFBA1 /* ChatroomSettingInterfaces.swift */; };
 		3C7EC42A2BCCD7A9002FFBA1 /* ChatroomSettingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC4032BCCD7A9002FFBA1 /* ChatroomSettingEntity.swift */; };
-		3CDE57802BCFCD880040A556 /* BVMessagingSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3CDE577F2BCFCD880040A556 /* BVMessagingSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CDE57802BCFCD880040A556 /* BVMessagingSDK in Frameworks */,
+				3C144D062C89BE3E001AD762 /* BVMessagingSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +293,7 @@
 			);
 			name = MessagingSDKSample;
 			packageProductDependencies = (
-				3CDE577F2BCFCD880040A556 /* BVMessagingSDK */,
+				3C144D052C89BE3E001AD762 /* BVMessagingSDK */,
 			);
 			productName = MessagingSDKSample;
 			productReference = 3C7EC3BC2BCCD61C002FFBA1 /* MessagingSDKSample.app */;
@@ -324,7 +324,7 @@
 			);
 			mainGroup = 3C7EC3B32BCCD61C002FFBA1;
 			packageReferences = (
-				3CDE577E2BCFCD880040A556 /* XCRemoteSwiftPackageReference "ios-messaging-sdk" */,
+				3C144D042C89BE3E001AD762 /* XCRemoteSwiftPackageReference "iOS-Messaging-SDK" */,
 			);
 			productRefGroup = 3C7EC3BD2BCCD61C002FFBA1 /* Products */;
 			projectDirPath = "";
@@ -613,20 +613,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3CDE577E2BCFCD880040A556 /* XCRemoteSwiftPackageReference "ios-messaging-sdk" */ = {
+		3C144D042C89BE3E001AD762 /* XCRemoteSwiftPackageReference "iOS-Messaging-SDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/BlendVision/ios-messaging-sdk";
+			repositoryURL = "https://github.com/BlendVision/iOS-Messaging-SDK";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
+				minimumVersion = 1.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3CDE577F2BCFCD880040A556 /* BVMessagingSDK */ = {
+		3C144D052C89BE3E001AD762 /* BVMessagingSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CDE577E2BCFCD880040A556 /* XCRemoteSwiftPackageReference "ios-messaging-sdk" */;
+			package = 3C144D042C89BE3E001AD762 /* XCRemoteSwiftPackageReference "iOS-Messaging-SDK" */;
 			productName = BVMessagingSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

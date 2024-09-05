@@ -1,13 +1,13 @@
 {
-  "originHash" : "cebf05f1da0c937f26d98d9464bc4fdf8632c24af877f8f7b88d40ea2143b8f2",
+  "originHash" : "1b8a482480dafe144f956d66cad37ae1822216b2451c0145e0fdb3603b11f055",
   "pins" : [
     {
       "identity" : "ios-messaging-sdk",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/BlendVision/ios-messaging-sdk",
+      "location" : "https://github.com/BlendVision/iOS-Messaging-SDK",
       "state" : {
-        "revision" : "79898b68674f98d56716cc8a3ccf439b1293b05b",
-        "version" : "1.2.0"
+        "revision" : "6fa8507b301e3addd707f9fb65abb593fddcadd3",
+        "version" : "1.3.0"
       }
     }
   ],

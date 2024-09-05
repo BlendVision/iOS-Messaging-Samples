@@ -21,6 +21,13 @@ class ChatroomNoticeCellTableViewCell: UITableViewCell {
         view.layer.masksToBounds = true
         return view
     }()
+    lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 10)
+        label.textAlignment = .center
+        return label
+    }()
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,11 +54,15 @@ extension ChatroomNoticeCellTableViewCell: CustomCell {
 
     struct CellConfiguration: CustomCellConfiguration {
         let text: String
+        let receiveDate: Date
     }
 
     func configure(with configuration: Configuration) {
         self.configuration = configuration
         titleLabel.text = configuration.text
+        let format = DateFormatter()
+        format.dateFormat = "HH:mm:ss.SSS"
+        timeLabel.text = format.string(from: configuration.receiveDate)
     }
 }
 
@@ -65,13 +76,19 @@ private extension ChatroomNoticeCellTableViewCell {
         let pending: CGFloat = 6
         
         contentView.addSubview(containerView)
+        containerView.addSubview(timeLabel)
         containerView.addSubview(titleLabel)
+        
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: pending),
             containerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -pending),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: pending),
+            timeLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: pending),
+            timeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: pending * 2),
+            timeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -pending * 2),
+            
+            titleLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 2),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: pending * 2),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -pending * 2),
             titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -pending),

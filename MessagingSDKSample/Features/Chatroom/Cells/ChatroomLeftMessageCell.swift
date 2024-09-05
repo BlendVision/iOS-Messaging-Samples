@@ -95,7 +95,7 @@ extension ChatroomLeftMessageCell: CustomCell {
         nameLabel.text = configuration.username
         
         let format = DateFormatter()
-        format.dateFormat = "HH:mm"
+        format.dateFormat = "HH:mm:ss"
         timeLabel.text = format.string(from: configuration.receiveDate)
         
         switch configuration.status {

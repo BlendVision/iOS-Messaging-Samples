@@ -23,8 +23,7 @@ publish_to_public:
   tags: ["ios"]
   stage: publish_to_public
   rules:
-    - if: $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "web"
   script:
     - git remote add github git@github.com:BlendVision/iOS-Messaging-Samples.git
     - git push github HEAD:main
-    - git push github ${CI_COMMIT_TAG}

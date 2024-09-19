@@ -112,10 +112,12 @@ extension ChatroomInteractor {
     }
     
     func sendLikeMessage() {
-        do {
-            try chatroom.sendCountableCustomMessage(key: "like", text: "👍")
-        } catch {
-            delegate?.interactor(self, didFailed: error)
+        Task {
+            do {
+                try chatroom.sendCountableCustomMessage(key: "like", text: "👍")
+            } catch {
+                delegate?.interactor(self, didFailed: error)
+            }
         }
     }
     

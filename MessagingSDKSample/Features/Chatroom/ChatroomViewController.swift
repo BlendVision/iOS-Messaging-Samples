@@ -163,16 +163,18 @@ extension ChatroomViewController: ChatroomViewInterface {
     }
     
     func updateConnectionState(_ state: ConnectingState) {
-        switch state {
-        case .connected:
-            stateLabel.text = "connected"
-            stateLabel.backgroundColor = .systemGreen
-        case .connecting:
-            stateLabel.text = "connecting"
-            stateLabel.backgroundColor = .systemYellow
-        case .disconnected:
-            stateLabel.text = "disconnected"
-            stateLabel.backgroundColor = .systemRed
+        DispatchQueue.main.async {
+            switch state {
+            case .connected:
+                self.stateLabel.text = "connected"
+                self.stateLabel.backgroundColor = .systemGreen
+            case .connecting:
+                self.stateLabel.text = "connecting"
+                self.stateLabel.backgroundColor = .systemYellow
+            case .disconnected:
+                self.stateLabel.text = "disconnected"
+                self.stateLabel.backgroundColor = .systemRed
+            }
         }
     }
     

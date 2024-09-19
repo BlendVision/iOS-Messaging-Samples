@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setupMessaging() {
-        MessagingManager.shared.setup(with: MessagingConfig(logLevel: .debug))
+        MessagingManager.shared.setup(with: MessagingConfig(logLevel: .debug, batchProcessingInterval: 2, batchSendInterval: 5))
     }
     
     private func setupNavigationBarAppearance() {

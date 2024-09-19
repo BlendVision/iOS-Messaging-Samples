@@ -26,5 +26,5 @@ publish_to_public:
     - if: $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_TAG
   script:
     - git remote add github git@github.com:BlendVision/iOS-Messaging-Samples.git
-    - git push github main
+    - git push github HEAD:main
     - git push github ${CI_COMMIT_TAG}

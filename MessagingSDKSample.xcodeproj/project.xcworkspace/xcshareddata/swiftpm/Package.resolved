@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/BlendVision/iOS-Messaging-SDK",
       "state" : {
-        "revision" : "fcfaaf71128a4aeeae8b3983e46149eefd8a0d76",
-        "version" : "1.3.1"
+        "revision" : "74726b9908dd26fee3b6fece96ce00898b971960",
+        "version" : "1.4.1"
       }
     }
   ],

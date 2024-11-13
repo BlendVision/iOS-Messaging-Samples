@@ -129,7 +129,7 @@ extension ChatroomSettingViewController: UITableViewDataSource, UITableViewDeleg
                 cell.configure(with: data)
                 return cell
             }
-        case let .mute(data), let .unmute(data):
+        case let .mute(data), let .unmute(data), let .demo(data):
             if let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier) as? ButtonTableViewCell {
                 cell.configure(with: data)
                 return cell

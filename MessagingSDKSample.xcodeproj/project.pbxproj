@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C203EE32CE47AD700978D58 /* GetMessageDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203EE22CE47AD500978D58 /* GetMessageDemoViewController.swift */; };
+		3C203EE52CE47AE700978D58 /* GetMessageDemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203EE42CE47AE600978D58 /* GetMessageDemoViewModel.swift */; };
+		3C203EE72CE47AF800978D58 /* InteractionTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203EE62CE47AF800978D58 /* InteractionTypeSelectionViewController.swift */; };
+		3C203EE92CE47B1B00978D58 /* InteractionTypeSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203EE82CE47B1A00978D58 /* InteractionTypeSelectionViewModel.swift */; };
 		3C510D3F2C2123CC00BF5FCB /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C510D3D2C2123CC00BF5FCB /* APIService.swift */; };
 		3C7EC3C02BCCD61C002FFBA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC3BF2BCCD61C002FFBA1 /* AppDelegate.swift */; };
 		3C7EC3C22BCCD61C002FFBA1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7EC3C12BCCD61C002FFBA1 /* SceneDelegate.swift */; };
@@ -54,6 +58,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C203EE22CE47AD500978D58 /* GetMessageDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageDemoViewController.swift; sourceTree = "<group>"; };
+		3C203EE42CE47AE600978D58 /* GetMessageDemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageDemoViewModel.swift; sourceTree = "<group>"; };
+		3C203EE62CE47AF800978D58 /* InteractionTypeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionTypeSelectionViewController.swift; sourceTree = "<group>"; };
+		3C203EE82CE47B1A00978D58 /* InteractionTypeSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionTypeSelectionViewModel.swift; sourceTree = "<group>"; };
 		3C510D3D2C2123CC00BF5FCB /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		3C7EC3BC2BCCD61C002FFBA1 /* MessagingSDKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessagingSDKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7EC3BF2BCCD61C002FFBA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +121,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C203EE12CE47AB200978D58 /* GetMessageDemoPage */ = {
+			isa = PBXGroup;
+			children = (
+				3C203EE82CE47B1A00978D58 /* InteractionTypeSelectionViewModel.swift */,
+				3C203EE62CE47AF800978D58 /* InteractionTypeSelectionViewController.swift */,
+				3C203EE42CE47AE600978D58 /* GetMessageDemoViewModel.swift */,
+				3C203EE22CE47AD500978D58 /* GetMessageDemoViewController.swift */,
+			);
+			path = GetMessageDemoPage;
+			sourceTree = "<group>";
+		};
 		3C510D3E2C2123CC00BF5FCB /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +233,7 @@
 				3C7EC3EC2BCCD7A9002FFBA1 /* Chatroom */,
 				3C7EC3FB2BCCD7A9002FFBA1 /* TabBarController.swift */,
 				3C7EC3FC2BCCD7A9002FFBA1 /* ChatroomSetting */,
+				3C203EE12CE47AB200978D58 /* GetMessageDemoPage */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -352,12 +372,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C203EE92CE47B1B00978D58 /* InteractionTypeSelectionViewModel.swift in Sources */,
 				3C7EC4082BCCD7A9002FFBA1 /* UITableViewCell+extension.swift in Sources */,
 				3C7EC4192BCCD7A9002FFBA1 /* ChatroomRightMessageCell.swift in Sources */,
 				3C7EC40F2BCCD7A9002FFBA1 /* ToggleTableViewCell.swift in Sources */,
 				3C7EC4272BCCD7A9002FFBA1 /* ChatroomSettingBuilder.swift in Sources */,
 				3C7EC41E2BCCD7A9002FFBA1 /* ChatroomInteractor.swift in Sources */,
 				3C7EC4152BCCD7A9002FFBA1 /* UserSettingViewModel.swift in Sources */,
+				3C203EE72CE47AF800978D58 /* InteractionTypeSelectionViewController.swift in Sources */,
 				3C7EC41B2BCCD7A9002FFBA1 /* ChatroomInterfaces.swift in Sources */,
 				3C7EC42A2BCCD7A9002FFBA1 /* ChatroomSettingEntity.swift in Sources */,
 				3C7EC4212BCCD7A9002FFBA1 /* ChatroomInputBoxView.swift in Sources */,
@@ -384,7 +406,9 @@
 				3C7EC4162BCCD7A9002FFBA1 /* UserSettingViewController.swift in Sources */,
 				3C7EC4232BCCD7A9002FFBA1 /* TabBarController.swift in Sources */,
 				3C7EC3C22BCCD61C002FFBA1 /* SceneDelegate.swift in Sources */,
+				3C203EE32CE47AD700978D58 /* GetMessageDemoViewController.swift in Sources */,
 				3C7EC4132BCCD7A9002FFBA1 /* DataSource.swift in Sources */,
+				3C203EE52CE47AE700978D58 /* GetMessageDemoViewModel.swift in Sources */,
 				3C7EC4062BCCD7A9002FFBA1 /* Collection+extension.swift in Sources */,
 				3C7EC41A2BCCD7A9002FFBA1 /* ChatroomNoticeCellTableViewCell.swift in Sources */,
 				3C7EC40B2BCCD7A9002FFBA1 /* UITableView+extension.swift in Sources */,
@@ -618,7 +642,7 @@
 			repositoryURL = "https://github.com/BlendVision/iOS-Messaging-SDK";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.1;
+				minimumVersion = 1.5.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -32,4 +32,10 @@ class ChatroomSettingRouter: ChatroomSettingRouterInterface {
         delegate?.route(self, configurationDidUpdate: configuration)
         navigationController?.popViewController(animated: true)
     }
+    
+    func showGetMessageDemoPage(chatroom: Chatroom) {
+        let viewModel = GetMessageDemoViewModel(chatroom: chatroom)
+        let viewController = GetMessageDemoViewController(viewModel: viewModel)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }

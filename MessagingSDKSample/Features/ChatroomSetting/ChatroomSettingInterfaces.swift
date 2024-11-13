@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BVMessagingSDK
 
 // View
 
@@ -55,4 +56,5 @@ protocol ChatroomSettingRouterInterface: RouterInterface {
     
     func showAlert(title: String?, description: String?)
     func backToChatroomAndUpdateConfiguration(with configuration: ChatroomSettingEntity.Configuration)
+    func showGetMessageDemoPage(chatroom: Chatroom)
 }

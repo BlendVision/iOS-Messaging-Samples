@@ -37,6 +37,7 @@ enum ChatroomSettingEntity {
             case mute(ButtonTableViewCell.Configuration)
             case unmute(ButtonTableViewCell.Configuration)
             case autoSend(ToggleTableViewCell.Configuration)
+            case demo(ButtonTableViewCell.Configuration)
         }
     }
 }

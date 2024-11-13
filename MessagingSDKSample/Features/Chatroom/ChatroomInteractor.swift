@@ -142,7 +142,7 @@ extension ChatroomInteractor {
     }
     
     func fetchHistory() async throws {
-        data.receivedMessages = try await chatroom.getMessage(limit: nil)
+        data.receivedMessages = try await chatroom.getMessage(limit: 100)
         self.delegate?.interactor(self, didUpdateData: self.data)
     }
     

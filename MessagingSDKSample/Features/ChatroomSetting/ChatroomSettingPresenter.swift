@@ -136,6 +136,14 @@ extension ChatroomSettingPresenter {
                     dataUpdatedHandler: { [weak self] value in
                         self?.interactor.setupIsAutoSend(value)
                     }
+                )),
+                Row.demo(.init(
+                    title: "Get Message API",
+                    category: .normal,
+                    clickActionHandler: { [weak self] in
+                        guard let self else { return }
+                        self.router.showGetMessageDemoPage(chatroom: self.chatroom)
+                    }
                 ))
             ])
         )
@@ -198,7 +206,7 @@ extension ChatroomSettingPresenter {
         case .blockUserInfo:
             let blockUser = chatroomInfo.blockedUsers[indexPath.row]
             interactor.unblock(userID: blockUser.id)
-        case .mute, .unmute, .info, .autoSend, .customCounter:
+        case .mute, .unmute, .info, .autoSend, .customCounter, .demo:
             break
         }
     }
@@ -212,7 +220,7 @@ extension ChatroomSettingPresenter {
         switch row {
         case .pinMessagesInfo, .blockUserInfo:
             return true
-        case .mute, .unmute, .info, .autoSend, .customCounter:
+        case .mute, .unmute, .info, .autoSend, .customCounter, .demo:
             return false
         }
     }

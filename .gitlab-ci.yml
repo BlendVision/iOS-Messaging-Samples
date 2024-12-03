@@ -25,5 +25,6 @@ publish_to_public:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
   script:
+    - git remote remove github
     - git remote add github git@github.com:BlendVision/iOS-Messaging-Samples.git
     - git push github HEAD:main

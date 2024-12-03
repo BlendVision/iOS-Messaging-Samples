@@ -12,5 +12,7 @@ extension UserDefaults {
     enum Keys {
         static let chatroomID = "chatroom_id"
         static let users = "users"
+        static let maxReconnectCount = "maxReconnectCount"
+        static let autoSyncData = "autoSyncData"
     }
 }

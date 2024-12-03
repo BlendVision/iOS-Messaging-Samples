@@ -15,13 +15,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         setupNavigationBarAppearance()
         setupTabBarAppearance()
-        setupMessaging()
+        
+        let maxReconnectCountInCache = DataSource.maxReconnectCount
+        setupMessaging(batchProcessingInterval: 2, batchSendInterval: 5, maxReconnectCount: maxReconnectCountInCache)
         
         return true
     }
     
-    private func setupMessaging() {
-        MessagingManager.shared.setup(with: MessagingConfig(logLevel: .debug, batchProcessingInterval: 2, batchSendInterval: 5))
+    func setupMessaging(batchProcessingInterval: TimeInterval, batchSendInterval: TimeInterval, maxReconnectCount: Int) {
+        let config = MessagingConfig(
+            logLevel: .debug,
+            batchProcessingInterval: batchProcessingInterval,
+            batchSendInterval: batchSendInterval,
+            maxReconnectCount: maxReconnectCount
+        )
+        MessagingManager.shared.setup(with: config)
     }
     
     private func setupNavigationBarAppearance() {

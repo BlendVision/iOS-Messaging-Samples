@@ -11,9 +11,10 @@ import BVMessagingSDK
 
 final class ChatroomBuilder {
 
-    func build(chatroom: Chatroom) -> UIViewController {
+    @MainActor
+    func build(chatroom: Chatroom, autoSyncData: Bool) -> UIViewController {
         let router = ChatroomRouter()
-        let interactor = ChatroomInteractor(chatroom: chatroom)
+        let interactor = ChatroomInteractor(chatroom: chatroom, autoSyncData: autoSyncData)
         let view = ChatroomViewController()
         let presenter = ChatroomPresenter(view: view, interactor: interactor, router: router)
         

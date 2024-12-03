@@ -24,6 +24,34 @@ class DataSource {
         }
     }
     
+    static var maxReconnectCount: Int {
+        get {
+            guard
+                let data = UserDefaults.standard.object(forKey: UserDefaults.Keys.maxReconnectCount) as? Data,
+                let count = try? JSONDecoder().decode(Int.self, from: data)
+            else { return 0 }
+            return count
+        }
+        set {
+            guard let encoded = try? JSONEncoder().encode(newValue) else { return }
+            UserDefaults.standard.set(encoded, forKey: UserDefaults.Keys.maxReconnectCount)
+        }
+    }
+    
+    static var autoSyncData: Bool {
+        get {
+            guard
+                let data = UserDefaults.standard.object(forKey: UserDefaults.Keys.autoSyncData) as? Data,
+                let count = try? JSONDecoder().decode(Bool.self, from: data)
+            else { return true }
+            return count
+        }
+        set {
+            guard let encoded = try? JSONEncoder().encode(newValue) else { return }
+            UserDefaults.standard.set(encoded, forKey: UserDefaults.Keys.autoSyncData)
+        }
+    }
+    
     static func getUser(index: Int) -> ChatroomUser {
         guard let user = users[safe: index] else {
             users.append(ChatroomUser.defaultUser)

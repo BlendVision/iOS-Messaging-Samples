@@ -63,6 +63,7 @@ protocol ChatroomInteractorInterface: InteractorInterface {
     func sendDislikeMessage()
     func refreshAndReconnect()
     func fetchHistory() async throws
+    func reconnect()
     
     // Message Action
     
@@ -88,4 +89,5 @@ protocol ChatroomRouterInterface: RouterInterface {
     func showAlert(title: String?, description: String?)
     func showMenu(message: String, isPinned: Bool, pin: @escaping () -> Void, delete: @escaping () -> Void, block: @escaping () -> Void)
     func showRefreshTokenAlert(title: String?, description: String?, refreshHandler: @escaping (() -> Void))
+    func showReconnectAlert(reconnectHandler: @escaping (() -> Void))
 }

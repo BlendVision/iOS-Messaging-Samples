@@ -30,10 +30,13 @@ class ChatroomInteractor: ChatroomInteractorInterface {
     private var testMessageSenderTimer: Timer?
     private var syncMessageTimer: Timer?
     
-    init(chatroom: Chatroom) {
+    init(chatroom: Chatroom, autoSyncData: Bool) {
         self.data = ChatroomEntity.DataSource(chatroom: chatroom)
         data.chatroom.add(listener: self)
-        startSyncTimer()
+        
+        if autoSyncData {
+            startSyncTimer()
+        }
     }
     
     deinit {
@@ -173,6 +176,16 @@ extension ChatroomInteractor {
         }
         
         return updatedMessages
+    }
+    
+    func reconnect() {
+        Task {
+            do {
+                try await self.chatroom.reconnect()
+            } catch {
+                self.chatroom(self.chatroom, didDisconnectWithError: error)
+            }
+        }
     }
 }
     

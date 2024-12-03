@@ -77,6 +77,18 @@ class ChatroomRouter: ChatroomRouterInterface {
             self.viewController?.present(alertController, animated: true)
         }
     }
+    
+    func showReconnectAlert(reconnectHandler: @escaping (() -> Void)) {
+        Task { @MainActor in
+            let alertController = UIAlertController(title: "Reminder", message: "Your chatroom was disconnected. Do you want to reconnect now?", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Give Up", style: .cancel))
+            alertController.addAction(UIAlertAction(title: "Reconnect", style: .default, handler: { _ in
+                reconnectHandler()
+            }))
+            
+            self.viewController?.present(alertController, animated: true)
+        }
+    }
 }
 
 extension ChatroomRouter: ChatroomSettingRouterOutput {

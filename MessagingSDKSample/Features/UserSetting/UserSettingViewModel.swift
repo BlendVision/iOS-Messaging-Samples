@@ -7,6 +7,7 @@
 
 import Foundation
 import BVMessagingSDK
+import UIKit
 
 extension UserSettingViewModel {
 
@@ -22,6 +23,8 @@ extension UserSettingViewModel {
         case roleToggle(ToggleTableViewCell.CellConfiguration)
         case chatroomToken(TextFieldTableViewCell.CellConfiguration)
         case refreshToken(TextFieldTableViewCell.CellConfiguration)
+        case autoSyncData(ToggleTableViewCell.CellConfiguration)
+        case maxReconnectCount(TextFieldTableViewCell.CellConfiguration)
         case environment(InfoTableViewCell.CellConfiguration)
     }
     
@@ -30,7 +33,14 @@ extension UserSettingViewModel {
         var refreshToken: String?
         let manager: MessagingManager
         let userIndex: Int
-        
+        var maxReconnectCount: Int {
+            get { DataSource.maxReconnectCount }
+            set { DataSource.maxReconnectCount = newValue }
+        }
+        var autoSyncData: Bool {
+            get { DataSource.autoSyncData }
+            set { DataSource.autoSyncData = newValue }
+        }
         var user: ChatroomUser {
             DataSource.getUser(index: userIndex)
         }
@@ -86,7 +96,11 @@ private extension UserSettingViewModel {
             .init(header: nil, rows: [
                 .chatroomToken(.init(title: "Chatroom Token", value: data.chatroomToken, valueUpdatedHandler: updateChatroomToken)),
                 .refreshToken(.init(title: "Refresh Token", value: data.refreshToken, valueUpdatedHandler: updateRefreshToken))
-            ])
+            ]),
+            .init(header: nil, rows: [
+                .autoSyncData(.init(title: "Auto Sync Data", value: data.autoSyncData, dataUpdatedHandler: updateAutoSyncData)),
+                .maxReconnectCount(.init(title: "Max Reconnect Count", value: String(data.maxReconnectCount), valueUpdatedHandler: updateMaxReconnectCount))
+            ]),
         ]
     }
     
@@ -108,6 +122,17 @@ private extension UserSettingViewModel {
     
     func updateRefreshToken(_ value: String?) {
         data.refreshToken = value ?? ""
+    }
+    
+    func updateMaxReconnectCount(_ value: String?) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let maxReconnectCount = Int(value ?? "0") ?? 0
+        data.maxReconnectCount = maxReconnectCount
+        appDelegate.setupMessaging(batchProcessingInterval: 2, batchSendInterval: 5, maxReconnectCount: maxReconnectCount)
+    }
+    
+    func updateAutoSyncData(_ value: Bool) {
+        data.autoSyncData = value
     }
 }
 

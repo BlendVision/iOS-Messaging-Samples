@@ -268,7 +268,9 @@ extension ChatroomPresenter: ChatroomInteractorDelegate {
                 self?.interactor.refreshAndReconnect()
             }
         default:
-            router.showAlert(title: "Error", description: chatroomError.errorDescription)
+            router.showReconnectAlert() { [weak self] in
+                self?.interactor.reconnect()
+            }
         }
     }
     

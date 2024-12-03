@@ -24,6 +24,7 @@ class UserSettingViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
+        tableView.contentInset = .init(top: 0, left: 0, bottom: 200, right: 0)
         tableView.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.identifier)
         tableView.register(ToggleTableViewCell.self, forCellReuseIdentifier: ToggleTableViewCell.identifier)
         tableView.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.identifier)
@@ -97,12 +98,12 @@ private extension UserSettingViewController {
         enableNavigationBarButton(false)
         
         viewModel.connect { [weak self] chatroom in
-            self?.enableNavigationBarButton(true)
+            guard let chatroom, let self else { return }
             
-            guard let chatroom else { return }
+            self.enableNavigationBarButton(true)
             DispatchQueue.main.async {
-                let viewController = ChatroomBuilder().build(chatroom: chatroom)
-                self?.navigationController?.pushViewController(viewController, animated: true)
+                let viewController = ChatroomBuilder().build(chatroom: chatroom, autoSyncData: self.viewModel.data.autoSyncData)
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
         }
     }
@@ -163,12 +164,12 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.configure(with: data)
                 return cell
             }
-        case let .roleToggle(data):
+        case let .roleToggle(data), let .autoSyncData(data):
             if let cell = tableView.dequeueReusableCell(withIdentifier: ToggleTableViewCell.identifier) as? ToggleTableViewCell {
                 cell.configure(with: data)
                 return cell
             }
-        case let .chatroomToken(data), let .refreshToken(data):
+        case let .chatroomToken(data), let .refreshToken(data), let .maxReconnectCount(data):
             if let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifier) as? TextFieldTableViewCell {
                 cell.configure(with: data)
                 return cell
